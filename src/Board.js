@@ -33,6 +33,10 @@
       this.trigger('change');
     },
 
+    /*
+     *  O(1) constant look with specific array indexes to change value
+     */
+
     _getFirstRowColumnIndexForMajorDiagonalOn: function(rowIndex, colIndex) {
       return colIndex - rowIndex;
     },
@@ -90,6 +94,10 @@
       return count > 1;
     },
 
+    /*
+     *  O(n) iterating through a single array
+     */
+
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
       let result = false;
@@ -99,7 +107,9 @@
       return result; // fixme
     },
 
-
+    /*
+     *  O(n**2) iterating through an array of arrays
+     */
 
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
@@ -113,6 +123,10 @@
       return count > 1;
     },
 
+    /*
+     *  O(n) iterating through a single array
+     */
+
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
       let result = false;
@@ -122,7 +136,9 @@
       return result; // fixme
     },
 
-
+    /*
+     *  O(n**2) iterating through an array of arrays
+     */
 
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
@@ -149,6 +165,10 @@
       // return count > 1;
     },
 
+    /*
+     *  O(n) iterating through a single array
+     */
+
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var result = false;
@@ -159,7 +179,9 @@
       return result;
     },
 
-
+    /*
+     *  O(n**2) iterating through an array of arrays
+     */
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
@@ -178,6 +200,10 @@
       return count > 1;
     },
 
+    /*
+     *  O(n) iterating through a single array
+     */
+
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       var result = false;
@@ -187,6 +213,10 @@
       }
       return result;
     },
+
+    /*
+     *  O(n**2) iterating through an array of arrays
+     */
 
     /*--------------------  End of Helper Functions  ---------------------*/
 
@@ -202,6 +232,11 @@
         }
       }
     },
+
+    /*
+     *  worst case O(n**2) iterating through an array of arrays
+     *  best case O(1) when given a specific col and row
+     */
 
     _updateBoard: function(rowIdx, colIdx, piece) {
       let row = this.get(rowIdx); 
@@ -222,24 +257,18 @@
             this.togglePiece(i, j, null);
           }
         }
-        for (let i = rowIdx - 1, j = colIdx - 1; i >= 0 && j >= 0; i--, j--) {
-          if (this.get(i)[j] === 0) {
-            this.togglePiece(i, j, null);
-          }
-        }
         // update minor
         for (let i = rowIdx + 1, j = colIdx - 1; i < this.get('n') && j >= 0; i++, j--) {
           if (this.get(i)[j] === 0) {
             this.togglePiece(i, j, null);
           }
         }
-        for (let i = rowIdx - 1, j = colIdx + 1; j < this.get('n') && i >= 0; j++, i--) {
-          if (this.get(i)[j] === 0) {
-            this.togglePiece(i, j, null);
-          }
-        }
       }
     },
+
+    /*
+     *  O(n) multiple for loops but not nested with a O(1) toggle func call
+     */
 
     _buildBoard: function() {
       var result = [];
@@ -248,6 +277,10 @@
       }
       return result;
     },
+
+    /*
+     *  O(n) iterating through an array of rows and copying it
+     */
 
   });
 
