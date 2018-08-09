@@ -38,10 +38,7 @@ window.countNRooksSolutions = function(n) {
     
     for (let i = 0; i < n; i++) {
       if (board.get(row)[i] === 0) {
-        let matrix = board._buildBoard();
-        let newBoard = new Board(matrix);
-        newBoard._addPiece(row, i);
-        boards.push(newBoard);
+        boards.push((new Board(board._buildBoard()))._addPiece(row, i));
       }
     }
     for (let board of boards) {
@@ -74,10 +71,7 @@ window.findNQueensSolution = function(n) {
     
     for (let i = 0; i < n; i++) {
       if (board.get(row)[i] === 0) {
-        let matrix = board._buildBoard();
-        let newBoard = new Board(matrix);
-        newBoard._addPiece(row, i, 'q');
-        boards.push(newBoard);
+        boards.push((new Board(board._buildBoard()))._addPiece(row, i, 'q'));
       }
     }
     for (let board of boards) {
@@ -104,10 +98,7 @@ window.countNQueensSolutions = function(n) {
     
     for (let i = 0; i < n; i++) {
       if (board.get(row)[i] === 0) {
-        let matrix = board._buildBoard();
-        let newBoard = new Board(matrix);
-        newBoard._addPiece(row, i, 'q');
-        boards.push(newBoard);
+        boards.push((new Board(board._buildBoard()))._addPiece(row, i, 'q'));
       }
     }
     for (let board of boards) {
