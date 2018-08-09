@@ -24,8 +24,12 @@
       }, this);
     },
 
-    togglePiece: function(rowIndex, colIndex) {
-      this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
+    togglePiece: function(rowIndex, colIndex, val = 1) {
+      if (val === 1) {
+        this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
+      } else {
+        this.get(rowIndex)[colIndex] = val;
+      }
       this.trigger('change');
     },
 
@@ -184,10 +188,48 @@
         result = result || this.hasMinorDiagonalConflictAt(i);
       }
       return result;
-    }
+    },
 
     /*--------------------  End of Helper Functions  ---------------------*/
 
+
+    _addPiece: function(row = 0, col = 0, piece = 'r') {
+      for (let i = row; i < this.get('n'); i++) {
+        for (let j = col; j < this.get('n'); j++) {
+          if (this.get(i)[j] === 0) {
+            this.togglePiece(i, j);
+            this._updateBoard(i, j, piece);
+            return this;
+          }
+        }
+      }
+    },
+
+    _updateBoard: function(rowIdx, colIdx, piece) {
+      let row = this.get(rowIdx); 
+      for (let col = 0; col < this.get('n'); col++) {
+        if (row[col] === 0) {
+          this.togglePiece(rowIdx, col, null);
+        }
+      }
+      for (let row = 0; row < this.get('n'); row++) {
+        if (this.get(row)[colIdx] === 0) {
+          this.togglePiece(row, colIdx, null);
+        }
+      }
+      if (piece === 'q') {
+        // update major
+        // update minor
+      }
+    },
+
+    _buildBoard: function() {
+      var result = [];
+      for (let i = 0; i < this.get('n'); i++) {
+        result.push(this.get(i).slice());
+      }
+      return result;
+    },
 
   });
 
