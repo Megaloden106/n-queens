@@ -47,9 +47,9 @@ window.countNRooksSolutions = function(n) {
     for (let board of boards) {
       addRook(board, numAdded + 1, row + 1);
     }
-  }
+  };
 
-  addRook(new Board({n:n}))
+  addRook(new Board({n:n}));
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
@@ -57,15 +57,65 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  var solutionCount = 0;
+  var solutionBoard;
 
-  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+  if (n === 2 || n === 3) {
+    return (new Board({n:n}))._buildBoard();
+  }
+
+  var addQueen = function(board, numAdded = 0, row = 0) {
+    var boards = [];
+    if (numAdded === n) {
+      solutionCount++;
+      solutionBoard = board._buildBoard();
+      return; 
+    }
+    
+    for (let i = 0; i < n; i++) {
+      if (board.get(row)[i] === 0) {
+        let matrix = board._buildBoard();
+        let newBoard = new Board(matrix);
+        newBoard._addPiece(row, i, 'q');
+        boards.push(newBoard);
+      }
+    }
+    for (let board of boards) {
+      addQueen(board, numAdded + 1, row + 1);
+    }
+  };
+
+  addQueen(new Board({n:n}));
+
+  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solutionBoard));
+  return solutionBoard;
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutionCount = 0;
+
+  var addQueen = function(board, numAdded = 0, row = 0) {
+    var boards = [];
+    if (numAdded === n) {
+      solutionCount++;
+      return; 
+    }
+    
+    for (let i = 0; i < n; i++) {
+      if (board.get(row)[i] === 0) {
+        let matrix = board._buildBoard();
+        let newBoard = new Board(matrix);
+        newBoard._addPiece(row, i, 'q');
+        boards.push(newBoard);
+      }
+    }
+    for (let board of boards) {
+      addQueen(board, numAdded + 1, row + 1);
+    }
+  };
+
+  addQueen(new Board({n:n}));
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;

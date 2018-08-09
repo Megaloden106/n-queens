@@ -66,14 +66,14 @@
     },
 
 
-/*
+    /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
     / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
     \__ \ || (_| | |  | |_  | | | |  __/ | |  __/_
     |___/\__\__,_|_|   \__| |_| |_|\___|_|  \___(_)
 
- */
+    */
     /*=========================================================================
     =                 TODO: fill in these Helper Functions                    =
     =========================================================================*/
@@ -130,9 +130,7 @@
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(colIndex) {
       var count = 0;
-      for (let rowIndex = 0; 
-           rowIndex < this.get('n') && colIndex < this.get('n'); 
-           rowIndex++, colIndex++) {
+      for (let rowIndex = 0; rowIndex < this.get('n') && colIndex < this.get('n'); rowIndex++, colIndex++) {
         if (colIndex >= 0) {
           count += this.get(rowIndex)[colIndex];
         }
@@ -219,7 +217,27 @@
       }
       if (piece === 'q') {
         // update major
+        for (let i = rowIdx + 1, j = colIdx + 1; i < this.get('n') && j < this.get('n'); i++, j++) {
+          if (this.get(i)[j] === 0) {
+            this.togglePiece(i, j, null);
+          }
+        }
+        for (let i = rowIdx - 1, j = colIdx - 1; i >= 0 && j >= 0; i--, j--) {
+          if (this.get(i)[j] === 0) {
+            this.togglePiece(i, j, null);
+          }
+        }
         // update minor
+        for (let i = rowIdx + 1, j = colIdx - 1; i < this.get('n') && j >= 0; i++, j--) {
+          if (this.get(i)[j] === 0) {
+            this.togglePiece(i, j, null);
+          }
+        }
+        for (let i = rowIdx - 1, j = colIdx + 1; j < this.get('n') && i >= 0; j++, i--) {
+          if (this.get(i)[j] === 0) {
+            this.togglePiece(i, j, null);
+          }
+        }
       }
     },
 
